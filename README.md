@@ -1,4 +1,4 @@
-# Exercice technque OuiCar
+# Exercice technique OuiCar
 
 ### Consignes générales
 
