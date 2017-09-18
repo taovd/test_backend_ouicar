@@ -39,7 +39,7 @@ Il n'est pas nécessaire d'implémenter la logique d'authentification, on consid
 
 - Les indisponibilités sont des périodes qui partent d'une date/heure de début jusqu'à une date/heure de fin
 - Une indisponibilité s'applique à une voiture donnée
-- La date/heure de début doit être inférieure à la date/heure de fin ainsi qu'à la date/heure d'ajourd'hui
+- La date/heure de début doit être inférieure à la date/heure de fin et supérieure à la date/heure d'aujourd'hui
 
 ## Question n°3 :
 
