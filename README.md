@@ -11,7 +11,7 @@ Pour résoudre cet exercice, veuillez :
 
 Dans cet exercice vous devrez reproduire le coeur du système le location de OuiCar : le dépôt de véhicules ainsi que leur réservation. À vous d'utiliser les technologies qu'il convient afin d'implémenter votre solution. Les contraintes sont les suivantes :  
 - Le language de programmation devra être PHP 7
-- L'utilisation d'un framework est vivement recommandé ( Symphony, Laravel etc... )
+- Utilisation du framework Symphony
 - La base de donnée devra être de type relationnelle.
 
 Il n'est pas nécessaire d'implémenter la logique d'authentification, on considèrera que l'API permet d'exécuter des actions pour n'importe quel utilisateur.
@@ -22,7 +22,7 @@ Il n'est pas nécessaire d'implémenter la logique d'authentification, on consid
 - 3pts : Tests unitaires - TDD
 - 2pt : Déployer votre serveur en ligne (heroku, aws...)
 
-*\*Les Bonus Points sont très appréciés mais ne sont pas obligatoires. Attention à ne pas être contre-productif et perdre du temps, au risque de vous dévaloriser sur ces bonus.*
+*\*Les Bonus Points sont très appréciés mais ne sont pas obligatoires*
 
 ## Question n°1 :
 
