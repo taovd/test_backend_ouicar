@@ -5,8 +5,12 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
+ * @ORM\Entity
+ * @ORM\Table(name="car")
  * @ORM\Entity(repositoryClass="App\Repository\CarRepository")
  */
 class Car
@@ -26,22 +30,24 @@ class Car
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Mileage", inversedBy="cars", cascade={"persist", "merge"})
      * @ORM\JoinColumn(name="mileage_id", referencedColumnName="id", nullable=false)
+     * @Assert\NotBlank(message = "The mileage should not be blank")
      */
     private $mileage;
 
     /**
-     * @var Collection $components
-     * @ORM\OneToMany(targetEntity="App\Entity\Price", mappedBy="car")
-     * @ORM\JoinColumn(name="car_id", nullable=false)
+     * @var Collection $carPrices
+     * @ORM\OneToMany(targetEntity="App\Entity\CarPrice", mappedBy="car", cascade={"persist", "merge"})
+     * @ORM\JoinColumn(name="car_id", nullable=true)
+     * @Serializer\SerializedName("carPrices")
      */
-    private $prices;
+    private $carPrices;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->prices = new ArrayCollection();
+        $this->carPrices = new ArrayCollection();
     }
 
     /**
@@ -91,42 +97,41 @@ class Car
     }
 
     /**
-     * @return Collection|Price[]
+     * @return Collection|CarPrice[]
      */
-    public function getPrices(): Collection
+    public function getCarPrices(): Collection
     {
-        return $this->prices;
+        return $this->carPrices;
     }
 
     /**
-     * @param Price $price
+     * @param CarPrice $carPrice
      * @return Car
      */
-    public function addPrice(Price $price): self
+    public function addCarPrice(CarPrice $carPrice): self
     {
-        if (!$this->prices->contains($price)) {
-            $this->prices[] = $price;
-            $price->setCar($this);
+        if (!$this->carPrices->contains($carPrice)) {
+            $this->carPrices[] = $carPrice;
+            $carPrice->setCar($this);
         }
 
         return $this;
     }
 
     /**
-     * @param Price $price
+     * @param CarPrice $carPrice
      * @return Car
      */
-    public function removePrice(Price $price): self
+    public function removeCarPrice(CarPrice $carPrice): self
     {
-        if ($this->prices->contains($price)) {
-            $this->prices->removeElement($price);
+        if ($this->carPrices->contains($carPrice)) {
+            $this->carPrices->removeElement($carPrice);
             // set the owning side to null (unless already changed)
-            if ($price->getCar() === $this) {
-                $price->setCar(null);
+            if ($carPrice->getCar() === $this) {
+                $carPrice->setCar(null);
             }
         }
 
         return $this;
     }
-
 }
