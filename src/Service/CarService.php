@@ -5,6 +5,7 @@ use App\Entity\Car;
 use App\Entity\CarDay;
 use App\Entity\CarPrice;
 use App\Entity\Mileage;
+use App\Entity\Rental;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -67,5 +68,18 @@ class CarService
         $this->em->persist($newCar);
 
         return $newCar;
+    }
+
+    /**
+     * @param Car    $car
+     * @param string $startDate
+     * @param string $endDate
+     * @return bool
+     */
+    public function checkAvailability(Car $car, string $startDate, string $endDate)
+    {
+        $rental = $this->em->getRepository(Rental::class)->findCarAvailability($car, $startDate, $endDate);
+
+        return (count($rental)) ? false : true;
     }
 }

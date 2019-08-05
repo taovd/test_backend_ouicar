@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
- * @ORM\Entity
  * @ORM\Table(name="car_price")
  * @ORM\Entity(repositoryClass="App\Repository\CarPriceRepository")
  */

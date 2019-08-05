@@ -9,7 +9,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
- * @ORM\Entity
  * @ORM\Table(name="car")
  * @ORM\Entity(repositoryClass="App\Repository\CarRepository")
  */
@@ -43,11 +42,20 @@ class Car
     private $carPrices;
 
     /**
+     * @var Collection $rentals
+     * @ORM\OneToMany(targetEntity="App\Entity\Rental", mappedBy="car", cascade={"persist", "merge"})
+     * @ORM\JoinColumn(name="car_id", nullable=true)
+     * @Serializer\SerializedName("rentals")
+     */
+    private $rentals;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->carPrices = new ArrayCollection();
+        $this->rentals = new ArrayCollection();
     }
 
     /**
@@ -129,6 +137,45 @@ class Car
             // set the owning side to null (unless already changed)
             if ($carPrice->getCar() === $this) {
                 $carPrice->setCar(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Rental[]
+     */
+    public function getRentals(): Collection
+    {
+        return $this->rentals;
+    }
+
+    /**
+     * @param Rental $rental
+     * @return Car
+     */
+    public function addRental(Rental $rental): self
+    {
+        if (!$this->rentals->contains($rental)) {
+            $this->rentals[] = $rental;
+            $rental->setCar($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Rental $rental
+     * @return Car
+     */
+    public function removeRental(Rental $rental): self
+    {
+        if ($this->rentals->contains($rental)) {
+            $this->rentals->removeElement($rental);
+            // set the owning side to null (unless already changed)
+            if ($rental->getCar() === $this) {
+                $rental->setCar(null);
             }
         }
 

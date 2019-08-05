@@ -265,6 +265,9 @@
     "symfony/http-kernel": {
         "version": "v3.4.30"
     },
+    "symfony/inflector": {
+        "version": "v3.4.30"
+    },
     "symfony/maker-bundle": {
         "version": "1.0",
         "recipe": {
@@ -285,6 +288,9 @@
     },
     "symfony/polyfill-mbstring": {
         "version": "v1.11.0"
+    },
+    "symfony/property-access": {
+        "version": "v3.4.30"
     },
     "symfony/routing": {
         "version": "3.3",

@@ -68,4 +68,24 @@ class CarConstraintValidator
             throw new BadRequestHttpException("The price of more than 7 days can not be more than one of the 3-6 days");
         }
     }
+
+    /**
+     * @param string $startDate
+     * @param string $endDate
+     * @throws \Exception
+     */
+    public function validateSearchDate(string $startDate, string $endDate)
+    {
+        if (empty($startDate) || empty($endDate)) {
+            throw new BadRequestHttpException("The start date and the end date are mandatory");
+        }
+        $now = new \DateTime();
+        if ($startDate >= $endDate) {
+            throw new BadRequestHttpException("The start date must be less than the end date");
+        }
+
+        if ($startDate <= $now->format('Y-m-d H:i:s')) {
+            throw new BadRequestHttpException("The start date must be more than the time now");
+        }
+    }
 }
