@@ -116,6 +116,8 @@ class CarController extends AbstractFOSRestController
         $car->setMileage($mileage);
         $car->setMileageExact($carConvert->getMileageExact());
 
+        $em->flush();
+
         return View::create($car, Response::HTTP_OK);
     }
 }
