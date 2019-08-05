@@ -11,6 +11,10 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class CarDay
 {
+    const PRICE_DAY_1 = 1;
+    const PRICE_DAY_3 = 2;
+    const PRICE_DAY_7 = 3;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

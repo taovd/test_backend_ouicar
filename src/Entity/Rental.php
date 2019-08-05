@@ -40,6 +40,11 @@ class Rental
     private $car;
 
     /**
+     * @ORM\Column(type="float", nullable=false)
+     */
+    private $price;
+
+    /**
      * @return int|null
      */
     public function getId(): ?int
@@ -100,6 +105,25 @@ class Rental
     public function setCar(?Car $car): self
     {
         $this->car = $car;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param float $price
+     * @return Rental
+     */
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

@@ -82,4 +82,51 @@ class CarService
 
         return (count($rental)) ? false : true;
     }
+
+    /**
+     * @param Car       $car
+     * @param \DateTime $startDate
+     * @param \DateTime $endDate
+     * @return Rental
+     */
+    public function bookCar(Car $car, \DateTime $startDate, \DateTime $endDate)
+    {
+        $carRental = new Rental();
+        $carRental->setCar($car);
+        $carRental->setStartDate($startDate);
+        $carRental->setEndDate($endDate);
+
+        // calculate the days
+        $days = ceil(($endDate->getTimestamp() - $startDate->getTimestamp()) / 86400);
+        $price = $this->calculatePriceByDays($car, $days);
+        $carRental->setPrice($price);
+
+        $this->em->persist($carRental);
+        $this->em->flush();
+
+        return $carRental;
+    }
+
+    /**
+     * @param $car
+     * @param $days
+     * @return float|int
+     */
+    private function calculatePriceByDays($car, $days)
+    {
+        $price = 0;
+
+        $carPriceDay1 = $this->em->getRepository(CarPrice::class)->findOneBy(['car' => $car, 'carDay' => CarDay::PRICE_DAY_1]);
+        $carPriceDay3 = $this->em->getRepository(CarPrice::class)->findOneBy(['car' => $car, 'carDay' => CarDay::PRICE_DAY_3]);
+        $carPriceDay7 = $this->em->getRepository(CarPrice::class)->findOneBy(['car' => $car, 'carDay' => CarDay::PRICE_DAY_7]);
+        if ($days > 6) {
+            $price += $carPriceDay1->getValue() * 2 + $carPriceDay3->getValue() * 4 + $carPriceDay7->getValue() * ($days - 6);
+        } elseif ($days > 2) {
+            $price += $carPriceDay1->getValue() * 2 + $carPriceDay3->getValue() * ($days - 2);
+        } else {
+            $price += $carPriceDay1->getValue() * $days;
+        }
+
+        return $price;
+    }
 }

@@ -61,14 +61,16 @@ class RentalRepository extends ServiceEntityRepository
             ->andWhere('r.car = :car')
             ->setParameter('car', $car)
             ->andWhere(
-                'r.startDate <= :startDate OR r.endDate >= :startDate
-                OR r.startDate <= :endDate OR r.endDate >= :endDate
+                '(r.startDate <= :startDate AND r.endDate >= :startDate)
+                OR (r.startDate <= :endDate AND r.endDate >= :endDate)
                 '
             )
             ->setParameter('startDate', $startDate)
             ->setParameter('endDate', $endDate)
             ;
-
+//        dump($qb->getQuery()->getSQL());
+//        dump($qb->getQuery()->getParameters());
+//        die;
         return $qb->getQuery()->getResult();
     }
 }
