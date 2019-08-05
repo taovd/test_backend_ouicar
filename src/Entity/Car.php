@@ -50,6 +50,12 @@ class Car
     private $rentals;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     * @Serializer\SerializedName("mileageExact")
+     */
+    private $mileageExact;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -178,6 +184,25 @@ class Car
                 $rental->setCar(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getMileageExact(): ?string
+    {
+        return $this->mileageExact;
+    }
+
+    /**
+     * @param string $mileageExact
+     * @return Car
+     */
+    public function setMileageExact(string $mileageExact): self
+    {
+        $this->mileageExact = $mileageExact;
 
         return $this;
     }

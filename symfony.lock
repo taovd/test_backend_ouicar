@@ -161,6 +161,15 @@
     "ocramius/proxy-manager": {
         "version": "2.2.2"
     },
+    "phpdocumentor/reflection-common": {
+        "version": "1.0.1"
+    },
+    "phpdocumentor/reflection-docblock": {
+        "version": "4.3.1"
+    },
+    "phpdocumentor/type-resolver": {
+        "version": "0.4.0"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
@@ -292,6 +301,9 @@
     "symfony/property-access": {
         "version": "v3.4.30"
     },
+    "symfony/property-info": {
+        "version": "v3.4.30"
+    },
     "symfony/routing": {
         "version": "3.3",
         "recipe": {
@@ -309,6 +321,12 @@
     },
     "symfony/security-core": {
         "version": "v3.4.30"
+    },
+    "symfony/serializer": {
+        "version": "v3.4.30"
+    },
+    "symfony/serializer-pack": {
+        "version": "v1.0.2"
     },
     "symfony/stopwatch": {
         "version": "v3.4.30"
@@ -337,6 +355,9 @@
     },
     "symfony/yaml": {
         "version": "v3.4.30"
+    },
+    "webmozart/assert": {
+        "version": "1.4.0"
     },
     "willdurand/jsonp-callback-validator": {
         "version": "v1.1.0"

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Car;
+use App\Entity\Mileage;
 use App\Service\CarService;
 use App\Validator\Constraints\CarConstraintValidator;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -21,6 +22,8 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 class CarController extends AbstractFOSRestController
 {
     /**
+     * create a car
+     *
      * @ParamConverter(
      *     "carConvert",
      *     converter="fos_rest.request_body"
@@ -64,6 +67,7 @@ class CarController extends AbstractFOSRestController
     }
 
     /**
+     * get a car detail
      *
      * @Rest\Get(
      *     name="car_detail",
@@ -77,6 +81,41 @@ class CarController extends AbstractFOSRestController
      */
     public function getAction(Car $car)
     {
+        return View::create($car, Response::HTTP_OK);
+    }
+
+    /**
+     * update a car
+     *
+     * @ParamConverter("car", options={"id" = "id"})
+     * @ParamConverter("carConvert", converter="fos_rest.request_body")
+     *
+     * @Rest\Put(
+     *     name="update_car",
+     *     path="/{id}/update"
+     * )
+     * @param Car                              $car
+     * @param Car                              $carConvert
+     * @param CarConstraintValidator           $carConstraintValidator
+     * @param ConstraintViolationListInterface $validationErrors
+     * @return View
+     * @throws \Exception
+     */
+    public function updateAction(
+        Car $car,
+        Car $carConvert,
+        CarConstraintValidator $carConstraintValidator,
+        ConstraintViolationListInterface $validationErrors
+    ) {
+        // validate constraint violation
+        $carConstraintValidator->validate($validationErrors);
+        $em = $this->getDoctrine()->getManager();
+
+        // TODO check if the mileage is mandatory in update
+        $mileage = $em->getRepository(Mileage::class)->find($carConvert->getMileage()->getId());
+        $car->setMileage($mileage);
+        $car->setMileageExact($carConvert->getMileageExact());
+
         return View::create($car, Response::HTTP_OK);
     }
 }
