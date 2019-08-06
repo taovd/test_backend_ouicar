@@ -41,6 +41,7 @@ class Car
      * @ORM\OneToMany(targetEntity="App\Entity\CarPrice", mappedBy="car", cascade={"persist", "merge"})
      * @ORM\JoinColumn(name="car_id", nullable=true)
      * @Serializer\SerializedName("carPrices")
+     * @SWG\Property(ref=@Model(type=CarPrice::class))
      */
     private $carPrices;
 

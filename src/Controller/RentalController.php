@@ -16,6 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
+use Swagger\Annotations as SWG;
+use Nelmio\ApiDocBundle\Annotation\Model;
 
 /**
  * Class RentalController
@@ -44,6 +46,33 @@ class RentalController extends AbstractFOSRestController
      * )
      *
      * @ParamConverter("car", options={"id" = "id"})
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="check the car rental available",
+     *     @SWG\Schema(type="object",
+     *         @SWG\Property(property="availability", type="boolean")
+     *     )
+     * )
+     * @SWG\Parameter(
+     *     name="id",
+     *     in="path",
+     *     required=true,
+     *     type="integer",
+     * )
+     * @SWG\Parameter(
+     *     name="startDate",
+     *     in="query",
+     *     required=true,
+     *     type="string",
+     * )
+     * @SWG\Parameter(
+     *     name="endDate",
+     *     in="query",
+     *     required=true,
+     *     type="string",
+     * )
+     * @SWG\Tag(name="check car availibility")
      *
      * @param Car                    $car
      * @param ParamFetcher           $paramFetcher
@@ -84,14 +113,42 @@ class RentalController extends AbstractFOSRestController
     * @ParamConverter("car", options={"id" = "id"})
     * @ParamConverter("rentalConvert", converter="fos_rest.request_body")
     *
-     * @param Car                              $car
-     * @param Rental                           $rentalConvert
-     * @param CarService                       $carService
-     * @param CarConstraintValidator           $carConstraintValidator
-     * @param ConstraintViolationListInterface $validationErrors
-     * @return View
-     * @throws \Exception
-     */
+    * @SWG\Response(
+    *     response=201,
+    *     description="Book a car",
+    *     @Model(type=Rental::class)
+    * )
+    * @SWG\Parameter(
+    *     name="id",
+    *     in="path",
+    *     required=true,
+    *     type="integer",
+    * )
+    * @SWG\Parameter(
+    *     name="startDate",
+    *     in="body",
+    *     required=true,
+    *     type="string",
+    *     @SWG\Schema(),
+    * )
+    * @SWG\Parameter(
+    *     name="endDate",
+    *     in="body",
+    *     required=true,
+    *     type="string",
+    *     @SWG\Schema(),
+    * )
+    *
+    * @SWG\Tag(name="Book a car")
+    *
+    * @param Car                              $car
+    * @param Rental                           $rentalConvert
+    * @param CarService                       $carService
+    * @param CarConstraintValidator           $carConstraintValidator
+    * @param ConstraintViolationListInterface $validationErrors
+    * @return View
+    * @throws \Exception
+    */
     public function bookCar(
         Car $car,
         Rental $rentalConvert,

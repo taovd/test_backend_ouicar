@@ -16,7 +16,6 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
  * CarController
@@ -36,6 +35,44 @@ class CarController extends AbstractFOSRestController
      *     name="new_car",
      *     path="/new"
      * )
+     *
+     * @SWG\Response(
+     *     response=201,
+     *     description="Create a car",
+     *     @Model(type=Car::class)
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="name",
+     *     in="body",
+     *     required=true,
+     *     type="string",
+     *     @SWG\Schema(
+     *       required={"name"},
+     *       @SWG\Property(property="name", type="string"),
+     *     ),
+     * )
+     * @SWG\Parameter(
+     *     name="mileage",
+     *     in="body",
+     *     required=true,
+     *     type="object",
+     *     @SWG\Schema(
+     *       required={"id"},
+     *       @SWG\Property(property="id", type="integer"),
+     *     ),
+     * ),
+     * @SWG\Parameter(
+     *     name="carPrices",
+     *     in="body",
+     *     required=true,
+     *     type="array",
+     *     @SWG\Schema(
+     *       @SWG\Items()
+     *     ),
+     * )
+     * @SWG\Tag(name="Create new car")
+     *
      * @param Car                              $carConvert
      * @param Request                          $request
      * @param CarService                       $carService
@@ -72,30 +109,26 @@ class CarController extends AbstractFOSRestController
     /**
      * get a car detail
      *
-     * @SWG\Get(
-     *     path="/car/{id}",
-     *     summary="Get a cat detail",
-     *     description="Get a car detail",
-     *     operationId="getCar",
-     *     produces={"application/json"},
-     *     @SWG\Parameter(
-     *         name="id",
-     *         in="path",
-     *         required=true,
-     *         type="integer",
-     *     ),
-     *     @SWG\Response(
-     *         response=200,
-     *         description="Success",
-     *         @SWG\Schema(ref=@Model(type=Car::class))
-     *     )
-     * )
-     *
      * @Rest\Get(
      *     name="car_detail",
      *     path="/{id}",
      *     requirements = {"id"="\d+"}
      * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Get a car detail",
+     *     @Model(type=Car::class)
+     * )
+     * @SWG\Parameter(
+     *     name="id",
+     *     in="path",
+     *     required=true,
+     *     type="integer",
+     * )
+     *
+     * @SWG\Tag(name="Get car")
+     *
      *
      * @ParamConverter("car", options={"id" = "id"})
      * @param Car $car
@@ -116,6 +149,38 @@ class CarController extends AbstractFOSRestController
      *     name="update_car",
      *     path="/{id}/update"
      * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Update a car",
+     *     @Model(type=Car::class)
+     * )
+     * @SWG\Parameter(
+     *     name="id",
+     *     in="path",
+     *     required=true,
+     *     type="integer",
+     * )
+     * @SWG\Parameter(
+     *     name="mileage",
+     *     in="body",
+     *     required=true,
+     *     type="object",
+     *     @SWG\Schema(
+     *       required={"id"},
+     *       @SWG\Property(property="id", type="integer"),
+     *     ),
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="mileageExact",
+     *     in="body",
+     *     required=true,
+     *     type="string",
+     *     @SWG\Schema(),
+     * )
+     * @SWG\Tag(name="Update a car")
+     *
      * @param Car                              $car
      * @param Car                              $carConvert
      * @param CarConstraintValidator           $carConstraintValidator
