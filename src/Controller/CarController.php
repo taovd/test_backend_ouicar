@@ -43,21 +43,19 @@ class CarController extends AbstractFOSRestController
      */
     public function newAction(
         Car $carConvert,
-        Request $request,
         CarService $carService,
         CarConstraintValidator $carConstraintValidator,
         ConstraintViolationListInterface $validationErrors
     ) {
         // validate constraint violation
         $carConstraintValidator->validate($validationErrors);
-
+        //dump($carConvert->getCarPrices());die;
         // validate car prices for days
-        $carPrices = $request->get('carPrices');
         $carDays = $carService->getCarDays();
-        $carConstraintValidator->validateCarPrices($carPrices, $carDays);
+        $carConstraintValidator->validateCarPrices($carConvert->getCarPrices(), $carDays);
 
         // create a new car
-        $newCar = $carService->createNewCar($carConvert, $carDays, $carPrices);
+        $newCar = $carService->createNewCar($carConvert, $carDays);
 
         $em = $this->getDoctrine()->getManager();
 

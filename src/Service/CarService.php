@@ -48,20 +48,20 @@ class CarService
      *
      * @param Car   $carConvert
      * @param array $carDays
-     * @param array $carPrices
      * @return Car
      */
-    public function createNewCar(Car $carConvert, array $carDays, array $carPrices)
+    public function createNewCar(Car $carConvert, array $carDays)
     {
         $mileage = $this->em->getRepository(Mileage::class)->find($carConvert->getMileage()->getId());
         $newCar = new Car();
         $newCar->setName($carConvert->getName());
         $newCar->setMileage($mileage);
-        foreach ($carPrices as $carPrice) {
+        foreach ($carConvert->getCarPrices() as $carPrice) {
+            /** @var $carPrice CarPrice */
             $carPriceEntity = new CarPrice();
-            $carPriceEntity->setCarDay($carDays[$carPrice['carDay']['id']]);
+            $carPriceEntity->setCarDay($carDays[$carPrice->getCarDay()->getId()]);
             $carPriceEntity->setCar($newCar);
-            $carPriceEntity->setValue($carPrice['value']);
+            $carPriceEntity->setValue($carPrice->getValue());
             $newCar->addCarPrice($carPriceEntity);
             $this->em->persist($carPriceEntity);
         }

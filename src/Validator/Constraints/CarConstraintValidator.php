@@ -2,6 +2,8 @@
 
 namespace App\Validator\Constraints;
 
+use App\Entity\CarPrice;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 
@@ -31,28 +33,29 @@ class CarConstraintValidator
     }
 
     /**
-     * @param array $carPrices
-     * @param array $carDays
+     * @param ArrayCollection $carPrices
+     * @param array           $carDays
      */
-    public function validateCarPrices(array $carPrices, array $carDays)
+    public function validateCarPrices(ArrayCollection $carPrices, array $carDays)
     {
         foreach ($carPrices as $carPrice) {
-            if (isset($carDays[$carPrice['carDay']['id']])) {
-                switch ($carPrice['carDay']['id']) {
+            /** @var $carPrice CarPrice */
+            if (isset($carDays[$carPrice->getCarDay()->getId()])) {
+                switch ($carPrice->getCarDay()->getId()) {
                     case 1:
-                        $priceDay1 = $carPrice['value'];
+                        $priceDay1 = $carPrice->getValue();
                         break;
                     case 2:
-                        $priceDay3 = $carPrice['value'];
+                        $priceDay3 = $carPrice->getValue();
                         break;
                     case 3:
-                        $priceDay7 = $carPrice['value'];
+                        $priceDay7 = $carPrice->getValue();
                         break;
                     default:
                         break;
                 }
             } else {
-                throw new BadRequestHttpException(sprintf("The price day of car not found (carDay id: %d)", $carPrice['carDay']['id']));
+                throw new BadRequestHttpException(sprintf("The price day of car not found (carDay id: %d)", $carPrice->getCarDay()->getId()));
             }
         }
 
