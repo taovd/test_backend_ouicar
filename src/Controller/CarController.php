@@ -14,6 +14,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
  * CarController
@@ -68,6 +71,25 @@ class CarController extends AbstractFOSRestController
 
     /**
      * get a car detail
+     *
+     * @SWG\Get(
+     *     path="/car/{id}",
+     *     summary="Get a cat detail",
+     *     description="Get a car detail",
+     *     operationId="getCar",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         type="integer",
+     *     ),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success",
+     *         @SWG\Schema(ref=@Model(type=Car::class))
+     *     )
+     * )
      *
      * @Rest\Get(
      *     name="car_detail",
