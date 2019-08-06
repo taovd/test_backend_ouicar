@@ -50,7 +50,7 @@ class Car
     private $rentals;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Serializer\SerializedName("mileageExact")
      */
     private $mileageExact;
